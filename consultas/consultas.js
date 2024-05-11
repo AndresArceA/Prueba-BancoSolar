@@ -28,7 +28,7 @@ const agregaUsuario = async (nombre, balance) => {
       values: [usuariomin],
     });
       if (existeUsuario.rowCount > 0) {
-      return `El Usuario ${nombre} ya existe en la Base de Datos, favor revise los datos o ingrese un Usuario nuevo`;
+      return JSON.stringify({msg:`El Usuario ${nombre} ya existe en la Base de Datos, favor revise los datos o ingrese un Usuario nuevo`});
      }
     //si no existe, agrego el usuario
     const result = await pool.query({
@@ -39,8 +39,8 @@ const agregaUsuario = async (nombre, balance) => {
     console.log(`Usuario ${usuarioAgregado.nombre} con $ ${usuarioAgregado.balance} agregado con éxito`);
     console.log("Usuario Agregado: ", usuarioAgregado);
     console.log(usuarioAgregado);
-    res.json(`El Usuario ${usuarioAgregado.nombre} con $ ${usuarioAgregado.balance} fue agregado correctamente al registro.`);// Devuelve los datos del usuario agregado
-  return; 
+    return JSON.stringify({ mensaje: `El Usuario ${usuarioAgregado.nombre} con $ ${usuarioAgregado.balance} fue agregado correctamente al registro.`});// Devuelve los datos del usuario agregado
+  
   } catch (error) { //manejo de errores
     console.log(`Error al agregar al usuario ${nombre}`);
     const EE = errores(error.code, error.status, error.message);
@@ -52,10 +52,9 @@ const agregaUsuario = async (nombre, balance) => {
       "|",
       EE.message
     );
-    return EE;
+    return JSON.stringify(EE);
   }
 };
-
 
 
 //--------------------------------------------------------------

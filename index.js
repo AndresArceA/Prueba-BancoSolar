@@ -54,20 +54,18 @@ app.post("/usuario", async (req, res) => {
     console.log(
       "Debe proporcionar todos los valores correctamente para agregar un nuevo Usuario al registro del Banco."
     );
-    res.json({msg:"Debe proporcionar todos los valores correctamente para agregar un nuevo Usuario al registro del Banco."});
+    return res.status(400).json({ msg: "Debe proporcionar todos los valores correctamente para agregar un nuevo Usuario al registro del Banco." });
     // return `Debe proporcionar todos los valores correctamente para agregar un nuevo Usuario al registro del Banco.`;
-    return;
+  
   }
   try {
-    const adduser = await agregaUsuario(nombre,balance);
+    const adduser = await agregaUsuario(nombre, balance);
     console.log(adduser);
-    return res.status(200).json({
-      msg: `Usuario ${nombre} con $ ${balance} agregado correctamente al registro del banco.`
-    });
+    return res.status(200).json(adduser);
     } catch (error) {
     console.log(error);
     res.status(500).json({
-      msg: "Error al agregar el Usuario al registro",
+      msg: "Error al agregar el Usuariow al registro",
     });
   }
 });
@@ -93,7 +91,7 @@ app.get("/usuarios", async (req, res) => {
 //ruta PUT /usuario, que actualiza los registros de un usuario en la tabla
 
 app.put("/usuario", async (req, res) => {
-  const id = req.query.id; // Obtener el ID de la canción de los parámetros de la URL
+  const id = req.query.id; // Obtener el ID del usuarioL
   const { nombre, balance } = req.body;
 
   if (!id || !nombre || !balance) {
@@ -108,7 +106,7 @@ app.put("/usuario", async (req, res) => {
   }
 
   try {
-    const usuarioedit = await editaUser(id, nombre, balance); // Llama a la función para editar la canción
+    const usuarioedit = await editaUser(id, nombre, balance); // Llama a la función para editar el usuario
     res.json(usuarioedit);
   } catch (error) {
     console.log(error);
