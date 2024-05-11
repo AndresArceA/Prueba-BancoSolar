@@ -223,7 +223,16 @@ const transferencia = async (emisor, receptor, monto) => {
   } catch (error) {
     await pool.query("ROLLBACK"); // Revierte la transacción en caso de error
     console.error("Error al realizar la transferencia:", error);
-    return { error , msg: "Error al realizar la transferencia." };
+    const EE = errores(error.code, error.status, error.message);
+    console.log(
+      "Status ",
+      EE.status,
+      " |Error Cod. ",
+      EE.code,
+      "|",
+      EE.message
+    );
+    return { msg: "Status: "+ EE.status +" "+ "Cod: "+EE.code +"  "+EE.message }; 
   }
 };
 

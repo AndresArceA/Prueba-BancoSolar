@@ -12,13 +12,17 @@ switch (code) {
         status = 400;
         message = `Usuario '${pool.options.user}' no existe, revise sus datos de acceso.`;
         break;
-   case '22P02':
+    case '22P02':
         status = 400;
         message = "Error al ingresar Los datos, favor revise el formulario de ingreso y el tipo de datos, nombre y Balance.";
         break;
+    case '23514':
+        status= 500;
+        message = "No se puede realizar la transferencia, Emisor no dispone de monto suficiente";
+        break;
     case '23505':
         status= 400;
-        message = "Ya existe la canción ingresada, favor ingrese una nueva.";
+        message = "Ya existe el usuario ingresado, favor ingrese uno nuevo.";
         break;
     case '28P01':
         message = `Autenticación de contraseña falló, revise la contraseña para el usuario '${pool.options.user}'`;
