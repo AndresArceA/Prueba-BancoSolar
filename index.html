@@ -257,6 +257,9 @@
     try {
       const response = await fetch("http://localhost:3000/transferencia", {
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           emisor,
           receptor,
@@ -264,11 +267,11 @@
         })
       });
       //console.log("datos :" + emisor + receptor + monto);
-      alert(JSON.stringify({
-          emisor,
-          receptor,
-          monto,
-        }),);
+      // alert(JSON.stringify({
+      //     emisor,
+      //     receptor,
+      //     monto,
+      //   }),);
       const data = await response.json();
       location.reload();
       alert("Respuesta del servidor: " + data.msg); // Muestro data.msg en el alert

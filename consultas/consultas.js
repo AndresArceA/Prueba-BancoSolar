@@ -142,7 +142,7 @@ const editaUser = async (id, nombre, balance) => {
       values: [id],
     });
 
-    console.log(existeUser); // Corregido: Cambiado existeCancion por existeUser
+    console.log(existeUser);
 
     if (existeUser.rowCount == 0) {
       return { msg:`El Usuario ID ${id} no existe en la base de datos, seleccione uno existente para editar.`};
@@ -179,17 +179,23 @@ const editaUser = async (id, nombre, balance) => {
 // consulta transferencia
 
 const transferencia = async (emisor, receptor, monto) => {
-  let IdEmisor, IdReceptor; // Declaro variables para id de tabla transferencias
+  let IdEmisor,IdReceptor; // Declaro variables para id de tabla transferencias
   try {
-    //obtengo los  Id del emisor y receptor
-    const { rows } = await pool.query({
+    const {rows} = await pool.query({ //obtengo los  Id del emisor y receptor
       text: `SELECT id FROM ${tabla1} WHERE nombre = $1 OR nombre = $2`,
-      values: [emisor, receptor]
+      values: [emisor, receptor],
     });
-
+    //console.log(emisor,receptor);
+    //console.log(rows.length);
     if (rows.length === 2) {
       IdEmisor = rows[0].id;
       IdReceptor = rows[1].id;
+    }else if(rows.length === 1) {
+      IdEmisor = IdReceptor = rows[0].id;
+      //throw new Error("El receptor y el emisor son la misma persona.");
+      return { msg: "El receptor y el emisor son la misma persona." };
+    } else {
+      throw new Error("El nombre del emisor o receptor no existe");
     }
 
     await pool.query("BEGIN"); // Inicia la transacción
@@ -217,7 +223,7 @@ const transferencia = async (emisor, receptor, monto) => {
   } catch (error) {
     await pool.query("ROLLBACK"); // Revierte la transacción en caso de error
     console.error("Error al realizar la transferencia:", error);
-    return { msg: "Error al realizar la transferencia." };
+    return { error , msg: "Error al realizar la transferencia." };
   }
 };
 

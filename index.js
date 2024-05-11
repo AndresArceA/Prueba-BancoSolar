@@ -120,13 +120,13 @@ app.put("/usuario", async (req, res) => {
 
 app.post("/transferencia", async (req, res) => {
   const { emisor, receptor, monto } = req.body;
-
+  //console.log("val1 :"+ emisor, receptor,monto);
   try {
     const transfer = await transferencia(emisor, receptor, monto); //llamo a la funcion transferencia
     res.json(transfer);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: "Error al realizar la tansferencia" });
+    res.status(500).json({ msg: "Error al realizar la tansferencia"});
   }
 });
  
