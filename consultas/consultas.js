@@ -274,14 +274,6 @@ const listaTransfer = async () => {
 
 //eliminar Usuario
 
-// async function eliminar(id) {
-//   const result = await pool.query(
-//     "DELETE FROM usuarios WHERE id = $1 RETURNING *",
-//     [id]
-//   );
-//   return result.rows[0]; //devuelve el registro eliminado
-// }
-
 const borraUsuario = async (id) => {
   try {
     //verifico si la canción ya existe en la tabla
@@ -303,7 +295,7 @@ const borraUsuario = async (id) => {
     console.log(`Usuario ${usuario.nombre} eliminado con éxito`);
     console.log("Usuario Eliminado: ",usuario);
     console.log(result.rows[0]);
-    return `Usuario ${usuario.nombre} eliminado con éxito fue eliminado correctamente.`}; // Devuelve los datos del usuario eliminado
+    return `Usuario ${usuario.nombre} fue eliminado correctamente.`}; // Devuelve los datos del usuario eliminado
   } catch (error) {
     console.log("Error al eliminar el usuario");
     const EE = errores(error.code, error.status, error.message);
