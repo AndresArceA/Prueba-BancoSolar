@@ -3,6 +3,16 @@ const express = require('express');
 const path = require('path');
 const {errores} = require('./error/Errores.js');
 const app = express();
+const cors = require('cors');
+app.use(cors());
+
+// Configuración avanzada de CORS
+const corsOptions = {
+  origin: 'http://localhost:3000', // 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Si necesitas enviar cookies
+  optionsSuccessStatus: 204
+};
 
 //importo las funciones del archivo de consultas
 const {agregaUsuario, listaUsuarios, editaUser, transferencia, listaTransfer, borraUsuario} = require('./consultas/consultas.js');
@@ -27,22 +37,22 @@ app.use(express.static(path.join(__dirname, 'assets/img')));
 
 
 //ruta para cargar index.html
-app.get("/", (req, res) => {
-  try {
-    res.sendFile(path.join(__dirname, "/index.html"), (err) => {
-      if (err) {
-        console.error("Error al enviar index.html:", err);
-        res.sendFile(path.join(__dirname, "/404.html")); // Redirigir a la página 404 si hay un error al enviar el archivo
-      }
-    });
-  } catch (error) {
-    const EE = errores(error.code, error.status, error.message);
-    console.log("Error", error);
-    res.status(EE.status).json({
-      message: EE.message,
-    });
-  }
-});
+// app.get("/", (req, res) => {
+//   try {
+//     res.sendFile(path.join(__dirname, "/index.html"), (err) => {
+//       if (err) {
+//         console.error("Error al enviar index.html:", err);
+//         res.sendFile(path.join(__dirname, "/404.html")); // Redirigir a la página 404 si hay un error al enviar el archivo
+//       }
+//     });
+//   } catch (error) {
+//     const EE = errores(error.code, error.status, error.message);
+//     console.log("Error", error);
+//     res.status(EE.status).json({
+//       message: EE.message,
+//     });
+//   }
+// });
 
 
 //ruta POST /usuario, que inserta los registros de los clientes en la tabla usuarios
